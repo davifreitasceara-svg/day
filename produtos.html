@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="TechStore - Catálogo de produtos e controle de estoque.">
+  <title>TechStore | Produtos & Estoque</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <!-- HEADER -->
+  <header class="header" id="mainHeader">
+    <div class="container">
+      <nav class="nav">
+        <a href="index.html" class="nav-brand"><div class="brand-icon">⚡</div><span class="brand-text">TechStore</span></a>
+        <ul class="nav-links" id="navLinks">
+          <li><a href="index.html">Início</a></li>
+          <li><a href="produtos.html" class="active">Produtos</a></li>
+          <li><a href="index.html#categorias">Categorias</a></li>
+          <li><a href="index.html#ofertas">Ofertas</a></li>
+        </ul>
+        <div class="nav-actions">
+          <button class="btn-icon cart-btn" id="cartBtn">🛒<span class="cart-badge" id="cartBadge">3</span></button>
+          <a href="login.html" class="btn btn-primary btn-sm" id="loginNavBtn">Entrar</a>
+        </div>
+        <button class="nav-toggle" id="navToggle"><span></span><span></span><span></span></button>
+      </nav>
+    </div>
+  </header>
+
+  <main class="products-page">
+    <div class="container">
+      <!-- Stats Cards -->
+      <div class="stats-row animate-fade-up">
+        <div class="stat-card">
+          <div class="stat-icon purple">📦</div>
+          <div class="stat-value">1.580</div>
+          <div class="stat-description">Total de Produtos</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon blue">📊</div>
+          <div class="stat-value">12.450</div>
+          <div class="stat-description">Unidades em Estoque</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon green">✅</div>
+          <div class="stat-value">1.342</div>
+          <div class="stat-description">Disponíveis</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon orange">⚠️</div>
+          <div class="stat-value">38</div>
+          <div class="stat-description">Estoque Baixo</div>
+        </div>
+      </div>
+
+      <!-- Filtros -->
+      <div class="products-header animate-fade-up">
+        <div class="products-filters" id="filterBtns">
+          <button class="filter-btn active" data-filter="todos">Todos</button>
+          <button class="filter-btn" data-filter="smartphones">📱 Smartphones</button>
+          <button class="filter-btn" data-filter="notebooks">💻 Notebooks</button>
+          <button class="filter-btn" data-filter="fones">🎧 Fones</button>
+          <button class="filter-btn" data-filter="tvs">📺 TVs</button>
+          <button class="filter-btn" data-filter="games">🎮 Games</button>
+          <button class="filter-btn" data-filter="wearables">⌚ Wearables</button>
+        </div>
+        <div style="display:flex;gap:0.75rem;align-items:center;">
+          <div class="search-box">
+            <span class="search-icon">🔍</span>
+            <input type="text" id="searchInput" placeholder="Buscar produto...">
+          </div>
+          <div class="view-toggle" id="viewToggle">
+            <button class="active" data-view="grid">▦ Grid</button>
+            <button data-view="table">☰ Tabela</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- GRID VIEW -->
+      <div class="products-grid" id="gridView"></div>
+
+      <!-- TABLE VIEW -->
+      <div class="stock-table-container" id="tableView" style="display:none;">
+        <table class="stock-table">
+          <thead>
+            <tr>
+              <th>Produto</th>
+              <th>Categoria</th>
+              <th>Preço</th>
+              <th>Estoque</th>
+              <th>Status</th>
+              <th>Ações</th>
+            </tr>
+          </thead>
+          <tbody id="tableBody"></tbody>
+        </table>
+      </div>
+    </div>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="footer" style="margin-top:3rem;">
+    <div class="container">
+      <div class="footer-bottom">
+        <span>© 2026 TechStore. Todos os direitos reservados.</span>
+        <div class="social-links"><a href="#">📷</a><a href="#">🐦</a><a href="#">📘</a><a href="#">🎬</a></div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Toast -->
+  <div id="toast" style="position:fixed;bottom:30px;right:30px;padding:1rem 1.5rem;background:rgba(0,230,118,0.15);border:1px solid rgba(0,230,118,0.3);border-radius:12px;color:#00E676;font-weight:600;font-size:0.9rem;backdrop-filter:blur(20px);transform:translateY(100px);opacity:0;transition:all 0.4s ease;z-index:9999;font-family:'Inter',sans-serif;"></div>
+
+  <script>
+    // === Dados de Produtos (Simulação de Banco de Dados) ===
+    const allProducts = [
+      { id: 1, name: 'iPhone 16 Pro Max 256GB', category: 'smartphones', icon: '📱', price: 8499, oldPrice: 9999, stock: 45, sku: 'SPH-001', rating: '★★★★★', reviews: 2340 },
+      { id: 2, name: 'Samsung Galaxy S25 Ultra', category: 'smartphones', icon: '📱', price: 7299, oldPrice: 8499, stock: 32, sku: 'SPH-002', rating: '★★★★★', reviews: 1870 },
+      { id: 3, name: 'Xiaomi 15 Pro 512GB', category: 'smartphones', icon: '📱', price: 4999, oldPrice: 5999, stock: 68, sku: 'SPH-003', rating: '★★★★☆', reviews: 945 },
+      { id: 4, name: 'MacBook Air M3 15" 512GB', category: 'notebooks', icon: '💻', price: 12999, oldPrice: 14499, stock: 18, sku: 'NTB-001', rating: '★★★★★', reviews: 1890 },
+      { id: 5, name: 'Dell XPS 14 Intel Core Ultra', category: 'notebooks', icon: '💻', price: 9499, oldPrice: 10999, stock: 12, sku: 'NTB-002', rating: '★★★★☆', reviews: 720 },
+      { id: 6, name: 'Lenovo ThinkPad X1 Carbon', category: 'notebooks', icon: '💻', price: 11299, oldPrice: 12999, stock: 8, sku: 'NTB-003', rating: '★★★★★', reviews: 1340 },
+      { id: 7, name: 'AirPods Pro 2ª Geração', category: 'fones', icon: '🎧', price: 1899, oldPrice: 2299, stock: 120, sku: 'FON-001', rating: '★★★★★', reviews: 4120 },
+      { id: 8, name: 'Sony WH-1000XM5', category: 'fones', icon: '🎧', price: 2199, oldPrice: 2799, stock: 55, sku: 'FON-002', rating: '★★★★★', reviews: 2890 },
+      { id: 9, name: 'JBL Tour Pro 3', category: 'fones', icon: '🎧', price: 1499, oldPrice: 1799, stock: 3, sku: 'FON-003', rating: '★★★★☆', reviews: 567 },
+      { id: 10, name: 'Samsung TV 55" 4K QLED', category: 'tvs', icon: '📺', price: 3499, oldPrice: 4299, stock: 22, sku: 'TV-001', rating: '★★★★☆', reviews: 987 },
+      { id: 11, name: 'LG OLED C4 65"', category: 'tvs', icon: '📺', price: 6799, oldPrice: 7999, stock: 7, sku: 'TV-002', rating: '★★★★★', reviews: 1560 },
+      { id: 12, name: 'PlayStation 5 Slim 1TB', category: 'games', icon: '🎮', price: 3199, oldPrice: 3999, stock: 35, sku: 'GAM-001', rating: '★★★★★', reviews: 3560 },
+      { id: 13, name: 'Xbox Series X 1TB', category: 'games', icon: '🎮', price: 3499, oldPrice: 3999, stock: 28, sku: 'GAM-002', rating: '★★★★★', reviews: 2100 },
+      { id: 14, name: 'Nintendo Switch OLED', category: 'games', icon: '🎮', price: 2199, oldPrice: 2499, stock: 0, sku: 'GAM-003', rating: '★★★★☆', reviews: 4230 },
+      { id: 15, name: 'Apple Watch Ultra 2 49mm', category: 'wearables', icon: '⌚', price: 5799, oldPrice: 6499, stock: 15, sku: 'WRB-001', rating: '★★★★★', reviews: 1456 },
+      { id: 16, name: 'Samsung Galaxy Watch 7', category: 'wearables', icon: '⌚', price: 2299, oldPrice: 2799, stock: 42, sku: 'WRB-002', rating: '★★★★☆', reviews: 890 }
+    ];
+
+    let currentFilter = 'todos';
+    let currentView = 'grid';
+    let cartCount = 3;
+
+    // === Render Grid ===
+    function renderGrid(data) {
+      const grid = document.getElementById('gridView');
+      if (data.length === 0) { grid.innerHTML = '<p style="grid-column:1/-1;text-align:center;color:var(--text-muted);padding:3rem;">Nenhum produto encontrado.</p>'; return; }
+      grid.innerHTML = data.map(p => {
+        const discount = Math.round((1 - p.price / p.oldPrice) * 100);
+        const stockClass = p.stock === 0 ? 'out-of-stock' : p.stock <= 10 ? 'low-stock' : 'in-stock';
+        const stockLabel = p.stock === 0 ? 'Esgotado' : p.stock <= 10 ? 'Estoque baixo' : 'Em estoque';
+        const badgeClass = p.stock === 0 ? 'hot' : discount >= 20 ? 'sale' : 'new';
+        const badgeText = p.stock === 0 ? 'Esgotado' : `-${discount}%`;
+        return `
+          <div class="product-card">
+            <span class="product-badge ${badgeClass}">${badgeText}</span>
+            <div class="product-image">${p.icon}
+              <div class="product-actions">
+                <button class="btn btn-accent btn-sm" onclick="addToCart('${p.name}')" ${p.stock===0?'disabled style="opacity:0.5"':''}>🛒 ${p.stock===0?'Indisponível':'Comprar'}</button>
+              </div>
+            </div>
+            <div class="product-info">
+              <div class="product-category">${p.category}</div>
+              <div class="product-name">${p.name}</div>
+              <div class="product-rating"><span class="stars">${p.rating}</span><span class="count">(${p.reviews.toLocaleString()})</span></div>
+              <div class="product-price"><span class="current">R$ ${p.price.toLocaleString('pt-BR')}</span><span class="original">R$ ${p.oldPrice.toLocaleString('pt-BR')}</span></div>
+              <div style="margin-top:0.5rem;"><span class="stock-status ${stockClass}"><span class="status-dot"></span>${stockLabel} (${p.stock})</span></div>
+            </div>
+          </div>`;
+      }).join('');
+    }
+
+    // === Render Table ===
+    function renderTable(data) {
+      const tbody = document.getElementById('tableBody');
+      if (data.length === 0) { tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;color:var(--text-muted);padding:2rem;">Nenhum produto encontrado.</td></tr>'; return; }
+      tbody.innerHTML = data.map(p => {
+        const stockClass = p.stock === 0 ? 'out-of-stock' : p.stock <= 10 ? 'low-stock' : 'in-stock';
+        const stockLabel = p.stock === 0 ? 'Esgotado' : p.stock <= 10 ? 'Baixo' : 'Disponível';
+        return `
+          <tr>
+            <td><div class="product-cell"><div class="product-thumb">${p.icon}</div><div class="product-cell-info"><div class="cell-name">${p.name}</div><div class="cell-sku">${p.sku}</div></div></div></td>
+            <td style="text-transform:capitalize;">${p.category}</td>
+            <td class="stock-price">R$ ${p.price.toLocaleString('pt-BR')}</td>
+            <td class="stock-quantity">${p.stock}</td>
+            <td><span class="stock-status ${stockClass}"><span class="status-dot"></span>${stockLabel}</span></td>
+            <td><button class="btn btn-primary btn-sm" onclick="addToCart('${p.name}')" ${p.stock===0?'disabled style="opacity:0.5"':''}>🛒</button></td>
+          </tr>`;
+      }).join('');
+    }
+
+    function filterAndRender() {
+      let data = allProducts;
+      if (currentFilter !== 'todos') data = data.filter(p => p.category === currentFilter);
+      const q = document.getElementById('searchInput').value.toLowerCase();
+      if (q) data = data.filter(p => p.name.toLowerCase().includes(q) || p.category.includes(q) || p.sku.toLowerCase().includes(q));
+      renderGrid(data);
+      renderTable(data);
+    }
+
+    // === Filter buttons ===
+    document.getElementById('filterBtns').addEventListener('click', e => {
+      if (!e.target.classList.contains('filter-btn')) return;
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      e.target.classList.add('active');
+      currentFilter = e.target.dataset.filter;
+      filterAndRender();
+    });
+
+    // === Search ===
+    document.getElementById('searchInput').addEventListener('input', filterAndRender);
+
+    // === View toggle ===
+    document.getElementById('viewToggle').addEventListener('click', e => {
+      const btn = e.target.closest('button');
+      if (!btn) return;
+      document.querySelectorAll('#viewToggle button').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      currentView = btn.dataset.view;
+      document.getElementById('gridView').style.display = currentView === 'grid' ? 'grid' : 'none';
+      document.getElementById('tableView').style.display = currentView === 'table' ? 'block' : 'none';
+    });
+
+    // === Cart ===
+    function addToCart(name) {
+      cartCount++;
+      document.getElementById('cartBadge').textContent = cartCount;
+      const t = document.getElementById('toast');
+      t.innerHTML = '✅ ' + name + ' adicionado!';
+      t.style.transform = 'translateY(0)'; t.style.opacity = '1';
+      setTimeout(() => { t.style.transform = 'translateY(100px)'; t.style.opacity = '0'; }, 3000);
+    }
+
+    // === Header scroll ===
+    window.addEventListener('scroll', () => { document.getElementById('mainHeader').classList.toggle('scrolled', window.scrollY > 50); });
+
+    // === Mobile menu ===
+    document.getElementById('navToggle').addEventListener('click', () => {
+      const l = document.getElementById('navLinks');
+      if (l.style.display === 'flex') { l.style.display = 'none'; return; }
+      l.style.display = 'flex'; l.style.flexDirection = 'column'; l.style.position = 'absolute';
+      l.style.top = '100%'; l.style.left = '0'; l.style.right = '0';
+      l.style.background = 'rgba(10,14,39,0.95)'; l.style.padding = '1.5rem'; l.style.backdropFilter = 'blur(20px)';
+    });
+
+    // === Login status ===
+    const user = localStorage.getItem('techstore_user');
+    if (user) {
+      const d = JSON.parse(user), b = document.getElementById('loginNavBtn');
+      b.textContent = '👤 ' + d.name; b.href = '#';
+      b.onclick = (e) => { e.preventDefault(); if(confirm('Sair?')){ localStorage.removeItem('techstore_user'); location.reload();} };
+    }
+
+    // === Scroll animations ===
+    const obs = new IntersectionObserver(entries => {
+      entries.forEach(e => { if(e.isIntersecting){ e.target.style.opacity='1'; e.target.style.transform='translateY(0)'; }});
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.animate-fade-up').forEach(el => {
+      el.style.opacity = '0'; el.style.transform = 'translateY(30px)'; el.style.transition = 'all 0.6s ease'; obs.observe(el);
+    });
+
+    // Initial render
+    filterAndRender();
+  </script>
+</body>
+</html>
