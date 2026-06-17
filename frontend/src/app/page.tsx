@@ -1,4 +1,5 @@
 import { ProductCard } from '@/components/product/ProductCard';
+import { PixelHero } from "@/components/ui/pixel-perfect-hero";
 
 export default function Home() {
   const featuredProducts = [
@@ -10,41 +11,16 @@ export default function Home() {
 
   return (
     <div className="min-h-screen">
-      {/* Hero Section */}
-      <section className="relative min-h-[90vh] flex items-center pt-10 overflow-hidden">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(108,92,231,0.15),transparent_70%)] animate-hero-glow"></div>
-        <div className="max-w-7xl mx-auto px-8 relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-          <div className="max-w-xl">
-            <div className="inline-flex items-center gap-2 px-4 py-2 bg-[var(--primary)]/15 border border-[var(--border)] rounded-full text-[var(--primary-light)] text-sm font-medium mb-6">
-              <span className="w-2 h-2 bg-[var(--accent-green)] rounded-full animate-pulse"></span>
-              Novidades 2026
-            </div>
-            <h1 className="text-5xl sm:text-6xl font-black leading-tight mb-6 tracking-tight">
-              Tecnologia que<br />
-              <span className="text-gradient">Transforma</span> seu Dia
-            </h1>
-            <p className="text-[var(--text-secondary)] text-lg mb-10 leading-relaxed">
-              Descubra os melhores eletrônicos com preços incríveis. Smartphones, notebooks, fones e muito mais com entrega rápida e garantia estendida.
-            </p>
-            <div className="flex flex-wrap gap-4">
-              <button className="btn-primary">🛍️ Ver Produtos</button>
-              <button className="btn-outline">🔥 Ofertas do Dia</button>
-            </div>
-          </div>
-          <div className="hidden lg:flex justify-center items-center relative animate-float">
-             <div className="w-full max-w-[420px] p-8 glass-card border-[var(--border)] relative">
-                <div className="absolute top-4 right-[-20px] px-4 py-2 glass-card text-xs font-bold z-30">🚀 Frete Grátis</div>
-                <div className="absolute bottom-8 left-[-20px] px-4 py-2 glass-card text-xs font-bold z-30">⭐ 4.9 (2.340)</div>
-                <div className="w-full h-64 bg-[radial-gradient(circle,rgba(108,92,231,0.2)_0%,transparent_70%)] rounded-xl flex items-center justify-center text-8xl mb-6">📱</div>
-                <h3 className="text-xl font-bold mb-1">iPhone 16 Pro Max</h3>
-                <div className="flex gap-3 items-baseline">
-                  <span className="text-2xl font-extrabold text-[var(--accent)]">R$ 8.499</span>
-                  <span className="text-sm text-[var(--text-muted)] line-through">R$ 9.999</span>
-                </div>
-             </div>
-          </div>
-        </div>
-      </section>
+      <PixelHero
+        word1="Tech"
+        word2="Store."
+        description="Experiência minimalista movida por inovação. Cada detalhe tecnológico foi pensado para revolucionar seu estilo de vida."
+        primaryCta="Ver Produtos"
+        primaryCtaMobile="Produtos"
+        secondaryCta="Nossas Lojas"
+        secondaryCtaMobile="Lojas"
+        githubUrl="#"
+      />
 
       {/* Featured Products */}
       <section className="py-24" id="ofertas">
@@ -54,7 +30,7 @@ export default function Home() {
               <h2 className="text-3xl font-extrabold text-gradient mb-2">🔥 Destaques da Semana</h2>
               <p className="text-[var(--text-secondary)]">Os produtos mais procurados com descontos imperdíveis</p>
             </div>
-            <button className="btn-outline px-4 py-2 text-sm hidden sm:block">Ver Todos →</button>
+            <a href="/produtos" className="btn-outline px-4 py-2 text-sm hidden sm:block">Ver Todos →</a>
           </div>
           
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
@@ -64,6 +40,7 @@ export default function Home() {
           </div>
         </div>
       </section>
+      
       {/* Login / CTA Section */}
       <section className="py-24 relative overflow-hidden">
         <div className="absolute inset-0 bg-[var(--primary)]/5"></div>
