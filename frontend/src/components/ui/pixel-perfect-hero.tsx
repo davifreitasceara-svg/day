@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useCallback, useEffect, useRef, useState } from "react";
-import { ArrowRight, Github } from "lucide-react";
+import { ArrowRight, Code as Github } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 /* -----------------------------------------------------------------------------

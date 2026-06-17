@@ -1,5 +1,6 @@
 import { ProductCard } from '@/components/product/ProductCard';
 import { PixelHero } from "@/components/ui/pixel-perfect-hero";
+import { ShaderAnimation } from "@/components/ui/shader-animation";
 
 export default function Home() {
   const featuredProducts = [
@@ -11,6 +12,14 @@ export default function Home() {
 
   return (
     <div className="min-h-screen">
+      {/* Shader Animation Intro */}
+      <div className="relative flex h-[650px] w-full flex-col items-center justify-center overflow-hidden">
+        <ShaderAnimation />
+        <span className="absolute pointer-events-none z-10 text-center text-7xl leading-none font-semibold tracking-tighter whitespace-pre-wrap text-white drop-shadow-[0_4px_30px_rgba(0,0,0,0.6)]">
+          Tech Store
+        </span>
+      </div>
+
       <PixelHero
         word1="Tech"
         word2="Store."
