@@ -41,7 +41,7 @@ const authOptions: any = {
     strategy: "jwt", // Use JWT since we have CredentialsProvider
   },
   callbacks: {
-    async session({ session, token }) {
+    async session({ session, token }: any) {
       if (session.user && token.sub) {
         session.user.id = token.sub;
       }
