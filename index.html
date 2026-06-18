@@ -138,15 +138,16 @@
   <!-- Toast -->
   <div id="toast" style="position:fixed;bottom:30px;right:30px;padding:1rem 1.5rem;background:rgba(0,230,118,0.15);border:1px solid rgba(0,230,118,0.3);border-radius:12px;color:#00E676;font-weight:600;font-size:0.9rem;backdrop-filter:blur(20px);transform:translateY(100px);opacity:0;transition:all 0.4s ease;z-index:9999;font-family:'Inter',sans-serif;"></div>
 
+  <script src="js/cart.js"></script>
   <script>
     // Dados dos produtos
     const products = [
-      { name: 'iPhone 16 Pro Max 256GB', category: 'Smartphones', icon: '📱', price: 'R$ 8.499', oldPrice: 'R$ 9.999', rating: '★★★★★', reviews: '2.340', badge: '-15%', badgeClass: 'sale' },
-      { name: 'MacBook Air M3 15" 512GB', category: 'Notebooks', icon: '💻', price: 'R$ 12.999', oldPrice: 'R$ 14.499', rating: '★★★★★', reviews: '1.890', badge: 'Novo', badgeClass: 'new' },
-      { name: 'AirPods Pro 2ª Geração', category: 'Fones', icon: '🎧', price: 'R$ 1.899', oldPrice: 'R$ 2.299', rating: '★★★★★', reviews: '4.120', badge: '🔥 Hot', badgeClass: 'hot' },
-      { name: 'PlayStation 5 Slim 1TB', category: 'Games', icon: '🎮', price: 'R$ 3.199', oldPrice: 'R$ 3.999', rating: '★★★★★', reviews: '3.560', badge: '-20%', badgeClass: 'sale' },
-      { name: 'Samsung TV 55" 4K QLED', category: 'TVs & Monitores', icon: '📺', price: 'R$ 3.499', oldPrice: 'R$ 4.299', rating: '★★★★☆', reviews: '987', badge: 'Novo', badgeClass: 'new' },
-      { name: 'Apple Watch Ultra 2 49mm', category: 'Wearables', icon: '⌚', price: 'R$ 5.799', oldPrice: 'R$ 6.499', rating: '★★★★★', reviews: '1.456', badge: '🔥 Hot', badgeClass: 'hot' }
+      { id: 101, name: 'iPhone 16 Pro Max 256GB', category: 'Smartphones', icon: '📱', price: 8499, oldPrice: 9999, rating: '★★★★★', reviews: '2.340', badge: '-15%', badgeClass: 'sale' },
+      { id: 102, name: 'MacBook Air M3 15" 512GB', category: 'Notebooks', icon: '💻', price: 12999, oldPrice: 14499, rating: '★★★★★', reviews: '1.890', badge: 'Novo', badgeClass: 'new' },
+      { id: 103, name: 'AirPods Pro 2ª Geração', category: 'Fones', icon: '🎧', price: 1899, oldPrice: 2299, rating: '★★★★★', reviews: '4.120', badge: '🔥 Hot', badgeClass: 'hot' },
+      { id: 104, name: 'PlayStation 5 Slim 1TB', category: 'Games', icon: '🎮', price: 3199, oldPrice: 3999, rating: '★★★★★', reviews: '3.560', badge: '-20%', badgeClass: 'sale' },
+      { id: 105, name: 'Samsung TV 55" 4K QLED', category: 'TVs & Monitores', icon: '📺', price: 3499, oldPrice: 4299, rating: '★★★★☆', reviews: '987', badge: 'Novo', badgeClass: 'new' },
+      { id: 106, name: 'Apple Watch Ultra 2 49mm', category: 'Wearables', icon: '⌚', price: 5799, oldPrice: 6499, rating: '★★★★★', reviews: '1.456', badge: '🔥 Hot', badgeClass: 'hot' }
     ];
 
     const grid = document.getElementById('featuredProducts');
@@ -156,33 +157,17 @@
           <span class="product-badge ${p.badgeClass}">${p.badge}</span>
           <div class="product-image">${p.icon}
             <div class="product-actions">
-              <button class="btn btn-accent btn-sm" onclick="addToCart('${p.name}')">🛒 Comprar</button>
+              <button class="btn btn-accent btn-sm" onclick="Cart.addItem({id:${p.id},name:'${p.name.replace(/'/g,"\\'")}',icon:'${p.icon}',price:${p.price},category:'${p.category.replace(/'/g,"\\'")}'})" >🛒 Comprar</button>
             </div>
           </div>
           <div class="product-info">
             <div class="product-category">${p.category}</div>
             <div class="product-name">${p.name}</div>
             <div class="product-rating"><span class="stars">${p.rating}</span><span class="count">(${p.reviews})</span></div>
-            <div class="product-price"><span class="current">${p.price}</span><span class="original">${p.oldPrice}</span></div>
+            <div class="product-price"><span class="current">R$ ${p.price.toLocaleString('pt-BR')}</span><span class="original">R$ ${p.oldPrice.toLocaleString('pt-BR')}</span></div>
           </div>
         </div>`;
     });
-
-    // Cart
-    let cartCount = 3;
-    function addToCart(name) {
-      cartCount++;
-      document.getElementById('cartBadge').textContent = cartCount;
-      showToast('✅ ' + name + ' adicionado ao carrinho!');
-    }
-
-    function showToast(msg) {
-      const t = document.getElementById('toast');
-      t.innerHTML = msg;
-      t.style.transform = 'translateY(0)';
-      t.style.opacity = '1';
-      setTimeout(() => { t.style.transform = 'translateY(100px)'; t.style.opacity = '0'; }, 3000);
-    }
 
     // Header scroll
     window.addEventListener('scroll', () => {
@@ -217,3 +202,4 @@
   </script>
 </body>
 </html>
+
