@@ -20,7 +20,7 @@
           <li><a href="index.html#ofertas">Ofertas</a></li>
         </ul>
         <div class="nav-actions">
-          <button class="btn-icon cart-btn" id="cartBtn">🛒<span class="cart-badge" id="cartBadge">3</span></button>
+          <button class="btn-icon cart-btn" id="cartBtn">🛒<span class="cart-badge" id="cartBadge" style="display:none;">0</span></button>
           <a href="login.html" class="btn btn-primary btn-sm" id="loginNavBtn">Entrar</a>
         </div>
         <button class="nav-toggle" id="navToggle"><span></span><span></span><span></span></button>
@@ -112,6 +112,7 @@
   <!-- Toast -->
   <div id="toast" style="position:fixed;bottom:30px;right:30px;padding:1rem 1.5rem;background:rgba(0,230,118,0.15);border:1px solid rgba(0,230,118,0.3);border-radius:12px;color:#00E676;font-weight:600;font-size:0.9rem;backdrop-filter:blur(20px);transform:translateY(100px);opacity:0;transition:all 0.4s ease;z-index:9999;font-family:'Inter',sans-serif;"></div>
 
+  <script src="js/cart.js"></script>
   <script>
     // === Dados de Produtos (Simulação de Banco de Dados) ===
     const allProducts = [
@@ -135,7 +136,13 @@
 
     let currentFilter = 'todos';
     let currentView = 'grid';
-    let cartCount = 3;
+
+    // Helper to create addToCart onclick string
+    function cartOnclick(p) {
+      const name = p.name.replace(/'/g, "\\'");
+      const cat = p.category.replace(/'/g, "\\'");
+      return `Cart.addItem({id:${p.id},name:'${name}',icon:'${p.icon}',price:${p.price},category:'${cat}'})`;
+    }
 
     // === Render Grid ===
     function renderGrid(data) {
@@ -152,7 +159,7 @@
             <span class="product-badge ${badgeClass}">${badgeText}</span>
             <div class="product-image">${p.icon}
               <div class="product-actions">
-                <button class="btn btn-accent btn-sm" onclick="addToCart('${p.name}')" ${p.stock===0?'disabled style="opacity:0.5"':''}>🛒 ${p.stock===0?'Indisponível':'Comprar'}</button>
+                <button class="btn btn-accent btn-sm" onclick="${cartOnclick(p)}" ${p.stock===0?'disabled style="opacity:0.5"':''}>🛒 ${p.stock===0?'Indisponível':'Comprar'}</button>
               </div>
             </div>
             <div class="product-info">
@@ -180,7 +187,7 @@
             <td class="stock-price">R$ ${p.price.toLocaleString('pt-BR')}</td>
             <td class="stock-quantity">${p.stock}</td>
             <td><span class="stock-status ${stockClass}"><span class="status-dot"></span>${stockLabel}</span></td>
-            <td><button class="btn btn-primary btn-sm" onclick="addToCart('${p.name}')" ${p.stock===0?'disabled style="opacity:0.5"':''}>🛒</button></td>
+            <td><button class="btn btn-primary btn-sm" onclick="${cartOnclick(p)}" ${p.stock===0?'disabled style="opacity:0.5"':''}>🛒</button></td>
           </tr>`;
       }).join('');
     }
@@ -217,16 +224,6 @@
       document.getElementById('tableView').style.display = currentView === 'table' ? 'block' : 'none';
     });
 
-    // === Cart ===
-    function addToCart(name) {
-      cartCount++;
-      document.getElementById('cartBadge').textContent = cartCount;
-      const t = document.getElementById('toast');
-      t.innerHTML = '✅ ' + name + ' adicionado!';
-      t.style.transform = 'translateY(0)'; t.style.opacity = '1';
-      setTimeout(() => { t.style.transform = 'translateY(100px)'; t.style.opacity = '0'; }, 3000);
-    }
-
     // === Header scroll ===
     window.addEventListener('scroll', () => { document.getElementById('mainHeader').classList.toggle('scrolled', window.scrollY > 50); });
 
@@ -260,3 +257,4 @@
   </script>
 </body>
 </html>
+
