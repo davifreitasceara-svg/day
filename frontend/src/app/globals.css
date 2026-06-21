@@ -63,7 +63,7 @@
 @layer components {
   /* Utilitários Premium  */
   .glass-card {
-    @apply bg-[var(--bg-card)]/70 backdrop-blur-xl border border-[var(--border-light)] rounded-2xl transition-all duration-300;
+    @apply bg-white/70 dark:bg-[#141937]/70 backdrop-blur-xl border border-[var(--border-light)] rounded-2xl transition-all duration-300;
   }
   .glass-card:hover {
     @apply border-[var(--border)] shadow-[var(--shadow-glow)] -translate-y-1;
