@@ -14,6 +14,27 @@
     --accent-orange: #FF6B35;
     --accent-pink: #FD79A8;
 
+    --bg-dark: #f8fafc;
+    --bg-card: #ffffff;
+    --bg-surface: #f1f5f9;
+    --bg-input: #e2e8f0;
+
+    --text-primary: #0f172a;
+    --text-secondary: #475569;
+    --text-muted: #94a3b8;
+
+    --border: rgba(108, 92, 231, 0.2);
+    --border-light: rgba(0, 0, 0, 0.08);
+
+    --gradient-primary: linear-gradient(135deg, #6C5CE7, #00D2FF);
+    --gradient-card: linear-gradient(145deg, #ffffff 0%, #f8fafc 100%);
+    --gradient-hero: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 50%, #f8fafc 100%);
+    --gradient-glow: radial-gradient(circle at 50% 50%, rgba(108, 92, 231, 0.05), transparent 70%);
+
+    --shadow-glow: 0 0 30px rgba(108, 92, 231, 0.15);
+  }
+
+  .dark {
     --bg-dark: #0A0E27;
     --bg-card: #141937;
     --bg-surface: #0F1332;
@@ -26,7 +47,6 @@
     --border: rgba(108, 92, 231, 0.2);
     --border-light: rgba(255, 255, 255, 0.08);
 
-    --gradient-primary: linear-gradient(135deg, #6C5CE7, #00D2FF);
     --gradient-card: linear-gradient(145deg, #141937 0%, #0F1332 100%);
     --gradient-hero: linear-gradient(135deg, #0A0E27 0%, #1A1040 50%, #0A0E27 100%);
     --gradient-glow: radial-gradient(circle at 50% 50%, rgba(108, 92, 231, 0.15), transparent 70%);
@@ -35,7 +55,7 @@
   }
 
   body {
-    @apply bg-[var(--bg-dark)] text-[var(--text-primary)] antialiased min-h-screen overflow-x-hidden;
+    @apply bg-[var(--bg-dark)] text-[var(--text-primary)] antialiased min-h-screen overflow-x-hidden transition-colors duration-300;
     font-family: 'Inter', sans-serif;
   }
 }
@@ -43,7 +63,7 @@
 @layer components {
   /* Utilitários Premium  */
   .glass-card {
-    @apply bg-[#141937]/70 backdrop-blur-xl border border-[var(--border-light)] rounded-2xl transition-all duration-300;
+    @apply bg-[var(--bg-card)]/70 backdrop-blur-xl border border-[var(--border-light)] rounded-2xl transition-all duration-300;
   }
   .glass-card:hover {
     @apply border-[var(--border)] shadow-[var(--shadow-glow)] -translate-y-1;
@@ -58,7 +78,7 @@
 
   .btn-primary {
     background: var(--gradient-primary);
-    @apply text-white px-6 py-3 rounded-xl font-semibold transition-all hover:-translate-y-1 hover:shadow-lg;
+    @apply text-white px-6 py-3 rounded-xl font-semibold transition-all hover:-translate-y-1 hover:shadow-lg relative overflow-hidden;
     box-shadow: 0 4px 15px rgba(108, 92, 231, 0.4);
   }
   
@@ -96,4 +116,25 @@
 }
 .animate-float {
   animation: floatSmall 4s ease-in-out infinite;
+}
+
+/* Lenis Scrolling */
+html.lenis, html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+.lenis.lenis-scrolling iframe {
+  pointer-events: none;
 }

@@ -3,12 +3,14 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
+import { ThemeProvider } from "@/components/layout/ThemeProvider";
+import { SmoothScroll } from "@/components/layout/SmoothScroll";
 
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "TechStore | Eletrônicos Premium",
-  description: "E-commerce de eletrônicos com os melhores preços em smartphones, notebooks, fones e muito mais.",
+  description: "E-commerce de eletrônicos premium, inspirado por design avançado.",
 };
 
 export default function RootLayout({
@@ -17,13 +19,17 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="pt-BR">
+    <html lang="pt-BR" suppressHydrationWarning>
       <body className={inter.className}>
-        <Navbar />
-        <main className="pt-20">
-          {children}
-        </main>
-        <Footer />
+        <ThemeProvider>
+          <SmoothScroll>
+            <Navbar />
+            <main className="pt-20">
+              {children}
+            </main>
+            <Footer />
+          </SmoothScroll>
+        </ThemeProvider>
       </body>
     </html>
   );
