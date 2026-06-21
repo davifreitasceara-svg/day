@@ -1,6 +1,6 @@
 import { ProductCard } from '@/components/product/ProductCard';
 import { PixelHero } from "@/components/ui/pixel-perfect-hero";
-import { ShaderLinesBackground } from "@/components/ui/ShaderLinesBackground";
+import { ShaderAnimation } from "@/components/ui/shader-lines";
 import { ScrollReveal } from "@/components/ui/ScrollReveal";
 
 export default function Home() {
@@ -23,10 +23,10 @@ export default function Home() {
   return (
     <div className="min-h-screen">
       {/* Shader Animation Intro */}
-      <div className="relative flex h-[100vh] w-full flex-col items-center justify-center overflow-hidden bg-gradient-to-b from-[var(--bg-dark)] to-transparent">
-        <ShaderLinesBackground />
+      <div className="relative flex h-[100vh] w-full flex-col items-center justify-center overflow-hidden bg-[var(--bg-dark)]">
+        <ShaderAnimation />
         
-        <ScrollReveal delay={0.2} direction="up" className="z-10 w-full">
+        <ScrollReveal delay={0.2} direction="up" className="z-10 w-full relative">
           <PixelHero
             word1="Tech"
             word2="Store."
